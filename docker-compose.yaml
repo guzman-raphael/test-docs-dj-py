@@ -1,0 +1,15 @@
+# docker compose up
+version: '2.4'
+services:
+  app:
+    image: python:alpine
+    volumes:
+      - ./datajoint:/tmp/datajoint_package/datajoint
+      - ./setup.py:/tmp/datajoint_package/setup.py
+    working_dir: /root
+    command:
+      - sh
+      - -c
+      - |
+        pip install /tmp/datajoint_package
+        tail -f /dev/null
