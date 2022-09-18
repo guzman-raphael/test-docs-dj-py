@@ -1,11 +1,11 @@
-# docker compose -f docs/docker-compose-docs-serve.yaml up --build
+# docker compose -f docs/docker-compose.yaml up --build
 # navigate to http://localhost/
 version: "2.4"
 services:
   docs:
     build:
+      dockerfile: docs/Dockerfile
       context: ../
-      dockerfile: docs/docs.dockerfile
       args:
         - PACKAGE=datajoint
     environment:

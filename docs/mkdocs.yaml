@@ -16,12 +16,13 @@ nav:
 
 # ---------------------------- STANDARD -----------------------------
 
-docs_dir: ./src/
+docs_dir: ./src
+edit_uri: ./edit/main/docs/src
 theme:
   name: material
-  custom_dir: overrides
-  logo: assets/project-logo-black.png
-  favicon: assets/project-logo-color.png
+  custom_dir: src/.overrides
+  logo: assets/images/project-logo-black.png
+  favicon: assets/images/project-logo-color.png
   features:
     - toc.integrate
   palette:
@@ -51,10 +52,12 @@ markdown_extensions:
   - pymdownx.emoji:
       options:
         custom_icons:
-          - overrides/.icons
+          - .overrides/.icons
 
 extra:
   generator: false # Disable watermark
+  version:
+    provider: mike
   social:
     - icon: datajoint/company-logo
       link: https://www.datajoint.com/
@@ -72,4 +75,4 @@ extra:
       link: https://www.youtube.com/channel/UCdeCuFOTCXlVMRzh6Wk-lGg
 
 extra_css:
-  - stylesheets/extra.css
+  - assets/stylesheets/extra.css
