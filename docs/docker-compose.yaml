@@ -1,24 +1,41 @@
-# docker compose -f docs/docker-compose.yaml up --build
+# MODE="LIVE|QA|PUBLISH" PACKAGE=datajoint UPSTREAM_REPO=https://github.com/guzman-raphael/test-docs-dj-py.git HOST_UID=1000 docker compose -f docs/docker-compose.yaml up --build
 # navigate to http://localhost/
 version: "2.4"
 services:
   docs:
     build:
-      dockerfile: docs/Dockerfile
+      dockerfile: docs/.docker/Dockerfile
       context: ../
       args:
-        - PACKAGE=datajoint
+        - PACKAGE
     environment:
-      - THEME_DIR=material
+      - PACKAGE
+      - UPSTREAM_REPO
+      - MODE
     volumes:
       - ..:/main
+    user: ${HOST_UID}:anaconda
     ports:
       - 80:80
     command:
-      - bash
+      - sh
       - -c
       - |
-        pwd
-        mkdocs --version
-        mkdocs serve --config-file ./docs/mkdocs.yaml -a 0.0.0.0:80
-        # tail -f /dev/null
+        git remote add upstream $${UPSTREAM_REPO}
+        if echo "$${MODE}" | grep -i live &>/dev/null; then
+            mkdocs serve --config-file ./docs/mkdocs.yaml -a 0.0.0.0:80
+        elif echo "$${MODE}" | grep -iE "qa|publish" &>/dev/null; then
+            rm -R ./docs/site
+            git branch -D gh-pages
+            git pull upstream gh-pages
+            mike deploy --config-file ./docs/mkdocs.yaml -u $$(grep -oE '\d+\.\d+' /main/$${PACKAGE}/version.py) latest
+            mike set-default --config-file ./docs/mkdocs.yaml latest
+            if echo "$${MODE}" | grep -i qa &>/dev/null; then
+                mike serve --config-file ./docs/mkdocs.yaml -a 0.0.0.0:80
+            elif echo "$${MODE}" | grep -i publish &>/dev/null; then
+                echo publish 
+            fi
+        else
+            echo "Unexpected mode..."
+            exit 1
+        fi

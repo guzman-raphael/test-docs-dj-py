@@ -3,7 +3,6 @@
 site_name: DataJoint Python
 repo_url: https://github.com/guzman-raphael/test-docs-dj-py
 repo_name: guzman-raphael/test-docs-dj-py
-
 nav:
   - DataJoint Python: getting_started/index.md
   - Getting Started:
@@ -36,7 +35,6 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
-
 plugins:
   - search
   - redirects:
@@ -44,7 +42,6 @@ plugins:
         "index.md": "getting_started/index.md"
   - mkdocstrings:
       default_handler: python
-
 markdown_extensions:
   - attr_list
   - toc:
@@ -53,7 +50,6 @@ markdown_extensions:
       options:
         custom_icons:
           - .overrides/.icons
-
 extra:
   generator: false # Disable watermark
   version:
@@ -73,6 +69,5 @@ extra:
       link: https://stackoverflow.com/questions/tagged/datajoint
     - icon: fontawesome/brands/youtube
       link: https://www.youtube.com/channel/UCdeCuFOTCXlVMRzh6Wk-lGg
-
 extra_css:
   - assets/stylesheets/extra.css
